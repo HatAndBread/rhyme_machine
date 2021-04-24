@@ -23,7 +23,7 @@ const readPos = (newWords) => {
     });
     let i = 0;
     posInterface.on('line', function (line) {
-      newWords[i].pos = line;
+      newWords[i].pos = line.split(',');
       i += 1;
     });
     posInterface.on('close', () => {
@@ -34,6 +34,8 @@ const readPos = (newWords) => {
 
 readWords().then((result) => {
   readPos(result).then((result) => {
-    console.log(result);
+    fs.writeFile(`./${Math.random()}.js`, `const wordList = ${JSON.stringify(result)}`, (err) => {
+      if (err) return console.log(err);
+    });
   });
 });
